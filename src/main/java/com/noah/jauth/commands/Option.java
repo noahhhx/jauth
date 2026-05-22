@@ -33,6 +33,9 @@ public class Option<T> {
     }
 
     public T getValue() {
+        if (value == null) {
+            return defaultValue;
+        }
         return value;
     }
 

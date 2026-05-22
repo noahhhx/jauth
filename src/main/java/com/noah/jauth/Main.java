@@ -21,7 +21,9 @@ public class Main {
                   InputParser.parse(args, cmd);
                   System.exit(cmd.execute());
               },
-              () -> System.out.printf("Unknown command: %s%n  Type 'help' to see available commands.%n", commandName)
+              () -> System.out.printf(
+                    "Unknown command: %s%n  Type 'help' to see available commands.%n", 
+                    commandName)
         );
     }
     private static void registerCommands() {

@@ -19,32 +19,37 @@ import javax.net.ssl.SSLException;
 import org.tinylog.Logger;
 
 public class Connect extends Command {
-
-    // TODO custom option
-    int timeoutSeconds = 30;
-
-    // TODO custom option
-    String acVersion = "5.1.4.74";
-
-    // TODO custom option
-    boolean noCertCheck;
+    
+    private final Option<Integer> timeoutSeconds = new Option<>(
+          List.of("--timeout"), "Per-request timeout in seconds",
+          30, Integer::parseInt); 
+    
+    private final Option<String> acVersion = new Option<>(
+          List.of("--ac-version"), "AnyConnect version string",
+          "5.1.4.74", Function.identity());
+    
+    private final Option<Boolean> noCertCheck = new Option<>(
+          List.of("--no-cert-check"), "Skip TLS verification of the gateway",
+          false, Boolean::parseBoolean);
 
     private final Option<String> host = new Option<>(
-          List.of("--host", "-h"), "VPN gateway hostname",
-          "stub-vpnhost", Function.identity()
-    );
-
-    // TODO custom option
-    String browserPath;
-
+          List.of("--host"), "VPN gateway hostname",
+          "stub-vpnhost", Function.identity());
+    
+    private final Option<String> browserPath = new Option<>(
+          List.of("--browser"), "Path to browser to use",
+          null, Function.identity());
+    
     // TODO custom option
     List<String> browserArgs;
-
-    // TODO custom option
-    String openconnectPath = "openconnect";
-
-    // TODO custom option
-    boolean noSudo;
+    
+    private final Option<String> openconnectPath = new Option<>(
+          List.of("--openconnect"), "Path to openconnect binary.",
+          "openconnect", Function.identity());
+    
+    private final Option<Boolean> noSudo = new Option<>(
+          List.of("--no-sudo"), "Don't prepend sudo when launching openconnect.",
+          false, Boolean::parseBoolean);
 
     // TODO custom option
     List<String> openconnectArgs;
@@ -52,8 +57,8 @@ public class Connect extends Command {
 
     @Override
     public int execute() {
-        Duration timeout = Duration.ofSeconds(30);
-        GatewayClient http = new GatewayClient(acVersion, timeout, !noCertCheck);
+        Duration timeout = Duration.ofSeconds(timeoutSeconds.getValue());
+        GatewayClient http = new GatewayClient(acVersion.getValue(), timeout, !noCertCheck.getValue());
 
         URI gatewayUrl = URI.create("https://" + host.getValue() + "/");
         URI authEndpoint;
@@ -75,7 +80,7 @@ public class Connect extends Command {
         AuthRequestResponse authReq;
         try {
             String initXml = XmlCodec.encodeAuthInit(host.getValue(), authEndpoint.toString(),
-                  acVersion);
+                  acVersion.getValue());
             Logger.debug("auth-init request XML:\n{}", initXml);
             byte[] respBytes = http.postAuth(authEndpoint, initXml);
             Logger.debug("auth-init response XML:\n{}", new String(respBytes));
@@ -94,7 +99,7 @@ public class Connect extends Command {
         }
 
         try {
-            new SystemBrowser(browserPath, browserArgs).open(authReq.loginUrl());
+            new SystemBrowser(browserPath.getValue(), browserArgs).open(authReq.loginUrl());
         } catch (Exception e) {
             Logger.error("Could not launch browser: {}", e.getMessage());
             return 2;
@@ -111,7 +116,7 @@ public class Connect extends Command {
         AuthCompleteResponse complete;
         try {
             String replyXml =
-                  XmlCodec.encodeAuthReply(acVersion, hostname(), authReq.opaqueXml(), ssoToken);
+                  XmlCodec.encodeAuthReply(acVersion.getValue(), hostname(), authReq.opaqueXml(), ssoToken);
             Logger.debug("auth-reply request XML:\n{}", replyXml);
             byte[] respBytes = http.postAuth(authEndpoint, replyXml);
             Logger.debug("auth-reply response XML:\n{}", new String(respBytes));
@@ -129,9 +134,9 @@ public class Connect extends Command {
 
         OpenconnectLauncher.Config cfg = new OpenconnectLauncher.Config();
         cfg.host = host.getValue();
-        cfg.acVersion = acVersion;
-        cfg.openconnectPath = openconnectPath;
-        cfg.useSudo = !noSudo;
+        cfg.acVersion = acVersion.getValue();
+        cfg.openconnectPath = openconnectPath.getValue();
+        cfg.useSudo = !noSudo.getValue();
         cfg.extraArgs = openconnectArgs != null ? openconnectArgs : List.of();
         try {
             System.exit(OpenconnectLauncher.launch(cfg, complete));
@@ -156,7 +161,10 @@ public class Connect extends Command {
 
     @Override
     public List<Option<?>> getOptions() {
-        return List.of(host);
+        return List.of(
+              host, timeoutSeconds, browserPath, acVersion, 
+              noCertCheck, openconnectPath, noSudo
+        );
     }
 
     private static String hostname() {
