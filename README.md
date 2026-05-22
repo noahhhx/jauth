@@ -18,7 +18,7 @@ mvn package
 ```
 
 Outputs:
-- `target/jauth.jar`
+- `target/jauth-0.0.1.jar`
 
 GraalVM native-image:
 
