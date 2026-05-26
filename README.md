@@ -11,7 +11,20 @@ my need and written in Java.
 - `sudo`
 - A browser
 
-## Build
+## Easy Install
+
+One line command to download and install
+```shell
+curl -fsSL https://raw.githubusercontent.com/noahhhx/jauth/main/install.sh | bash
+```
+it should then be executable via
+```shell
+jauth help
+```
+
+## Manual
+
+### Build
 
 ```shell
 mvn package
@@ -28,7 +41,7 @@ mvn -Pnative -DskipTests package
 
 Outputs `target/vpnauth` — single executable, no JVM needed.
 
-## Usage
+### Usage
 
 Java:
 ```shell
