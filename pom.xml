@@ -6,7 +6,7 @@
 
   <groupId>com.noah.jauth</groupId>
   <artifactId>jauth</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
