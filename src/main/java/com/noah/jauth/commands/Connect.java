@@ -32,9 +32,8 @@ public class Connect extends Command {
           List.of("--no-cert-check"), "Skip TLS verification of the gateway",
           false, Boolean::parseBoolean);
 
-    private final Option<String> host = new Option<>(
-          List.of("--host"), "VPN gateway hostname",
-          "stub-vpnhost", Function.identity());
+    private final Option<String> host = new RequiredOption<>(
+          List.of("--host"), "VPN gateway hostname", Function.identity());
     
     private final Option<String> browserPath = new Option<>(
           List.of("--browser"), "Path to browser to use",
@@ -44,11 +43,11 @@ public class Connect extends Command {
     List<String> browserArgs;
     
     private final Option<String> openconnectPath = new Option<>(
-          List.of("--openconnect"), "Path to openconnect binary.",
+          List.of("--openconnect"), "Path to openconnect binary",
           "openconnect", Function.identity());
     
     private final Option<Boolean> noSudo = new Option<>(
-          List.of("--no-sudo"), "Don't prepend sudo when launching openconnect.",
+          List.of("--no-sudo"), "Don't prepend sudo when launching openconnect",
           false, Boolean::parseBoolean);
 
     // TODO custom option

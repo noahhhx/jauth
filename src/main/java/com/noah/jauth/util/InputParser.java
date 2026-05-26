@@ -2,8 +2,12 @@ package com.noah.jauth.util;
 
 import com.noah.jauth.commands.Command;
 import com.noah.jauth.commands.Option;
+import com.noah.jauth.commands.RequiredOption;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.tinylog.Logger;
 
 public class InputParser {
 
@@ -12,9 +16,13 @@ public class InputParser {
      */
     public static void parse(String[] args, Command command) {
         Map<String, Option<?>> flagIndex = new HashMap<>();
+        List<String> requiredOpts = new ArrayList<>();
         for (Option<?> opt : command.getOptions()) {
             for (String name : opt.getNames()) {
                 flagIndex.put(name, opt);
+                if (opt instanceof RequiredOption<?>) {
+                    requiredOpts.add(name);
+                }
             }
         }
         for (int i = 1; i < args.length; i++) {
@@ -30,6 +38,13 @@ public class InputParser {
                 i = applyFlag(flagIndex, args, i, arg);
             }
         }
+        requiredOpts.forEach(opt -> {
+            Option<?> requiredOpt = flagIndex.get(opt);
+            if (requiredOpt.getValue() == null) {
+                Logger.error(requiredOpt.getNames() + " is a required option.");
+                System.exit(1);
+            }
+        });
     }
 
     private static int applyFlag(Map<String, Option<?>> index, String[] args, int i, String name) {
