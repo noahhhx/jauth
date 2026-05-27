@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import org.tinylog.Logger;
+import com.noah.jauth.util.log.Logger;
 
 /**
  * Launches an external browser pointed at a URL. Either use OS default or explicit binary path.

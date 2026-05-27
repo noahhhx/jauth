@@ -3,11 +3,11 @@ package com.noah.jauth.util;
 import com.noah.jauth.commands.Command;
 import com.noah.jauth.commands.Option;
 import com.noah.jauth.commands.RequiredOption;
+import com.noah.jauth.util.log.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.tinylog.Logger;
 
 public class InputParser {
 
@@ -49,7 +49,9 @@ public class InputParser {
 
     private static int applyFlag(Map<String, Option<?>> index, String[] args, int i, String name) {
         Option<?> opt = index.get(name);
-        if (opt == null) return i;
+        if (opt == null) {
+            return i;
+        }
         if (opt.isBoolean()) {
             opt.setValue(null);
         } else if (i + 1 < args.length && !args[i + 1].startsWith("-")) {

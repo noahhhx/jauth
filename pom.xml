@@ -19,19 +19,6 @@
     <native-maven-plugin.version>0.10.2</native-maven-plugin.version>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.tinylog</groupId>
-      <artifactId>tinylog-api</artifactId>
-      <version>${tinylog.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.tinylog</groupId>
-      <artifactId>tinylog-impl</artifactId>
-      <version>${tinylog.version}</version>
-    </dependency>
-  </dependencies>
-
   <build>
     <finalName>jauth-${project.version}</finalName>
     <plugins>

@@ -4,10 +4,13 @@ import com.noah.jauth.auth.AuthCompleteResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import org.tinylog.Logger;
+import com.noah.jauth.util.log.Logger;
 
 /**
  * Spawns the openconnect binary and pipes the SAML session token into its
@@ -18,7 +21,7 @@ public class OpenconnectLauncher {
     public static final class Config {
         public String host;
         public String acVersion;
-        public String openconnectPath = "openconnect";
+        public String openconnectPath;
         public boolean useSudo = true;
         public String sudoBinary;       // overrides auto-detect when non-null
         public List<String> extraArgs = List.of();
@@ -105,9 +108,9 @@ public class OpenconnectLauncher {
         // /proc/self/status reports the effective UID portably on Linux; macOS
         // doesn't have /proc, so fall back to user.name=="root".
         try {
-            java.nio.file.Path status = java.nio.file.Paths.get("/proc/self/status");
-            if (java.nio.file.Files.exists(status)) {
-                for (String line : java.nio.file.Files.readAllLines(status)) {
+            Path status = Paths.get("/proc/self/status");
+            if (Files.exists(status)) {
+                for (String line : Files.readAllLines(status)) {
                     if (line.startsWith("Uid:")) {
                         String[] parts = line.split("\\s+");
                         // Uid: ruid euid suid fsuid — effective uid is index 2.

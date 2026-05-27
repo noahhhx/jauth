@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 import javax.net.ssl.SSLException;
-import org.tinylog.Logger;
+import com.noah.jauth.util.log.Logger;
 
 public class Connect extends Command {
     
