@@ -28,7 +28,9 @@ public final class CookieCapture {
         banner.append("  Once you land on the post-login page, copy the cookie value:\n");
         banner.append("\n");
         banner.append("    1. Open devtools (F12) on the ").append(gatewayHost).append(" page.\n");
-        banner.append("    2. Application → Cookies → https://").append(gatewayHost).append("\n");
+        banner.append("    2. Go to the Cookies section:").append("\n");
+        banner.append("        - Chromium: Application tab → Cookies → https://").append(gatewayHost).append("\n");
+        banner.append("        - Firefox: Storage tab → Cookies → https://").append(gatewayHost).append("\n");
         banner.append("    3. Find the row named '").append(tokenCookieName).append("'.\n");
         banner.append("    4. Copy its Value, paste it below, press Enter.\n");
         banner.append("--------------------------------------------------------------\n");
