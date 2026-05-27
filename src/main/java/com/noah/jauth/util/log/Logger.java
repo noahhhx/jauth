@@ -30,7 +30,7 @@ public final class Logger {
         if (level.ordinal() < threshold.ordinal()) {
             return;
         }
-        System.err.println(level + ": " + format(msg, args));
+        System.out.println(level + ": " + format(msg, args));
     }
     
     private static String format(String msg, Object... args) {
