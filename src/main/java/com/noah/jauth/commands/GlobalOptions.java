@@ -2,7 +2,6 @@ package com.noah.jauth.commands;
 
 import com.noah.jauth.util.log.Level;
 import com.noah.jauth.util.log.Logger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

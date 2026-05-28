@@ -283,8 +283,4 @@ public class XmlCodec {
             // closing a reader on a ByteArrayInputStream cannot meaningfully fail
         }
     }
-
-    public static byte[] utf8(String s) {
-        return s.getBytes(StandardCharsets.UTF_8);
-    }
 }

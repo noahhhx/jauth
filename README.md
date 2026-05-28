@@ -7,7 +7,7 @@ my need and written in Java.
 
 - JDK 17+ (only needed to build, or to run the JAR; the GraalVM native build
   produces a single static binary with no JDK dependency)
-- `[openconnect](https://gitlab.com/openconnect/openconnect)` on `PATH`
+- [`openconnect`](https://gitlab.com/openconnect/openconnect) on `PATH`
 - `sudo`
 - A browser
 

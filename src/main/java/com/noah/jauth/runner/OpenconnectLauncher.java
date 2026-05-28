@@ -1,6 +1,7 @@
 package com.noah.jauth.runner;
 
 import com.noah.jauth.auth.AuthCompleteResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -88,8 +89,8 @@ public class OpenconnectLauncher {
     private static String which(String name) {
         String path = System.getenv("PATH");
         if (path == null) return null;
-        for (String dir : path.split(java.io.File.pathSeparator)) {
-            java.io.File f = new java.io.File(dir, name);
+        for (String dir : path.split(File.pathSeparator)) {
+            File f = new File(dir, name);
             if (f.canExecute()) return f.getAbsolutePath();
         }
         return null;
