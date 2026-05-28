@@ -1,8 +1,11 @@
 package com.noah.jauth.util.log;
 
+import java.util.List;
+
 public final class Logger {
     
     private static volatile Level threshold = Level.INFO;
+    private static final List<Writer> writers = List.of(new ConsoleWriter());
     
     private Logger() {}
     
@@ -30,7 +33,10 @@ public final class Logger {
         if (level.ordinal() < threshold.ordinal()) {
             return;
         }
-        System.out.println(level + ": " + format(msg, args));
+        LogEntry entry = new LogEntry(level, msg);
+        writers.forEach(writer -> {
+            writer.write(entry);
+        });
     }
     
     private static String format(String msg, Object... args) {
