@@ -1,6 +1,7 @@
 package com.noah.jauth.runner;
 
 import com.noah.jauth.auth.AuthCompleteResponse;
+import com.noah.jauth.util.log.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import com.noah.jauth.util.log.Logger;
 
 /**
  * Spawns the openconnect binary and pipes the SAML session token into its

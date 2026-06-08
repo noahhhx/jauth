@@ -1,10 +1,10 @@
 package com.noah.jauth.proxy;
 
+import com.noah.jauth.util.log.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import com.noah.jauth.util.log.Logger;
 
 /**
  * Captures the SSO token cookie after the user finishes signing in.
